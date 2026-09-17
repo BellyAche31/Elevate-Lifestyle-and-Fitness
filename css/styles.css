@@ -9,6 +9,8 @@
   --orange:#f7941d;
   --orange-lt:#ffa733;
   --orange-dk:#d97a06;
+  /* orange, darkened until it passes 4.5:1 on white - for text on light grounds */
+  --orange-ink:#a85c00;
   --ink:#171717;
   --ink-2:#232323;
   --ink-3:#2f2f2f;
@@ -48,7 +50,7 @@ body{
 
 img,svg,iframe{max-width:100%}
 img{height:auto;display:block}
-a{color:var(--orange-dk);text-decoration:none}
+a{color:var(--orange-ink);text-decoration:none}
 a:hover{text-decoration:underline}
 
 h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;line-height:1.02;letter-spacing:.01em;margin:0 0 .5em;text-transform:uppercase}
@@ -87,9 +89,10 @@ p{margin:0 0 1rem}
 
 .eyebrow{
   font-family:var(--font-display);font-size:1.05rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--orange);margin:0 0 .6rem;
+  color:var(--orange-ink);margin:0 0 .6rem;
 }
-.link-arrow{font-weight:700;color:var(--orange-dk)}
+.section-dark .eyebrow,.hero .eyebrow{color:var(--orange)}
+.link-arrow{font-weight:700;color:var(--orange-ink)}
 .micro{font-size:.88rem;color:var(--grey);margin:0}
 .note{margin-top:2rem;font-size:.95rem;color:var(--grey)}
 .section-dark .note{color:#b0b0b0}
@@ -220,7 +223,7 @@ p{margin:0 0 1rem}
 .card:hover::before{opacity:1}
 .card-icon{
   width:54px;height:54px;border-radius:14px;display:grid;place-items:center;margin-bottom:1rem;
-  background:linear-gradient(145deg,rgba(247,148,29,.18),rgba(247,148,29,.05));color:var(--orange-dk);
+  background:linear-gradient(145deg,rgba(247,148,29,.18),rgba(247,148,29,.05));color:var(--orange-ink);
 }
 .card-icon svg{width:28px;height:28px}
 .card h3{margin-bottom:.4rem}
@@ -236,11 +239,15 @@ p{margin:0 0 1rem}
 .day-tab{
   font-family:var(--font-display);font-size:1.12rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   padding:.55rem 1.35rem;border-radius:999px;cursor:pointer;
-  background:rgba(255,255,255,.07);color:var(--silver);border:1px solid rgba(255,255,255,.16);
+  background:#f0f0f0;color:var(--char);border:1px solid #dcdcdc;
   transition:background .18s ease,color .18s ease,border-color .18s ease;
 }
-.day-tab:hover{background:rgba(255,255,255,.14);color:var(--white)}
-.day-tab[aria-selected="true"]{background:var(--orange);border-color:var(--orange);color:#1a1a1a}
+.day-tab:hover{background:#e4e4e4;color:var(--ink);border-color:#c9c9c9}
+.day-tab[aria-selected="true"]{background:var(--orange);border-color:var(--orange-dk);color:#1a1a1a}
+/* dark-section variant, kept so the tabs survive being moved again */
+.section-dark .day-tab{background:rgba(255,255,255,.07);color:var(--silver);border-color:rgba(255,255,255,.16)}
+.section-dark .day-tab:hover{background:rgba(255,255,255,.14);color:var(--white);border-color:rgba(255,255,255,.3)}
+.section-dark .day-tab[aria-selected="true"]{background:var(--orange);border-color:var(--orange);color:#1a1a1a}
 
 .schedule{display:grid;gap:1rem}
 .sched-day{
@@ -265,6 +272,7 @@ p{margin:0 0 1rem}
 .sched-rows li:last-child{border-bottom:0}
 .sched-rows li:hover{background:rgba(247,148,29,.08)}
 .sched-time{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--orange);letter-spacing:.05em}
+.schedule-light .sched-time{color:var(--orange-ink)}
 .sched-name{font-weight:600;color:#ededed}
 .sched-empty{padding:1.6rem 1.2rem;color:#9a9a9a;font-style:italic}
 
@@ -347,7 +355,8 @@ p{margin:0 0 1rem}
 @media (min-width:900px){.trial-layout{grid-template-columns:1fr 1fr;gap:3.5rem}}
 .trial-copy h2{color:#1a1a1a}
 .trial-copy p{color:#332200;font-size:1.06rem}
-.trial-copy a{color:#1a1a1a;text-decoration:underline}
+.trial-copy a:not(.btn){color:#1a1a1a;text-decoration:underline}
+.trial-copy .btn-dark{color:var(--white);text-decoration:none}
 .trial-copy .eyebrow{color:#1a1a1a}
 
 .trial-form{background:var(--white);border-radius:var(--r-lg);padding:2rem;box-shadow:var(--shadow);display:grid;gap:1.1rem}
@@ -355,8 +364,8 @@ p{margin:0 0 1rem}
 .field-row{display:grid;gap:1.1rem}
 @media (min-width:560px){.field-row{grid-template-columns:1fr 1fr}}
 .field label{font-size:.8rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#4a4a4a}
-.field label span[aria-hidden]{color:var(--orange-dk)}
-.field .opt{font-weight:500;letter-spacing:.04em;text-transform:none;color:#9a9a9a}
+.field label span[aria-hidden]{color:var(--orange-ink)}
+.field .opt{font-weight:500;letter-spacing:.04em;text-transform:none;color:var(--grey)}
 .field input,.field select,.field textarea{
   font:inherit;font-size:1rem;color:var(--ink);
   padding:.78rem .9rem;border:1.5px solid #dcdcdc;border-radius:var(--r-sm);background:#fcfcfc;
@@ -434,7 +443,7 @@ p{margin:0 0 1rem}
 /* --- about --- */
 .about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.3rem}
 .about-card{border:1px solid #e7e7e7;border-radius:var(--r);padding:1.7rem;background:#fff;box-shadow:var(--shadow-sm)}
-.about-card h3{color:var(--orange-dk);font-size:1.3rem}
+.about-card h3{color:var(--orange-ink);font-size:1.3rem}
 .about-card p{margin:0;color:#4d4d4d;font-size:.98rem}
 .about-mission{background:linear-gradient(150deg,rgba(247,148,29,.1),#fff 70%);border-color:rgba(247,148,29,.45)}
 
@@ -521,3 +530,28 @@ p{margin:0 0 1rem}
 
 /* --- gallery captions are always on now that photos are real --- */
 .gal figcaption.gal-cap{opacity:1}
+
+/* ==========================================================================
+   QC pass: small-screen overflow and tap-target sizes
+   ========================================================================== */
+
+/* Buttons carried white-space:nowrap, so "Call 0969 325 3381" pushed the page
+   wider than a 320-360px screen. Let long labels wrap below that. */
+@media (max-width:430px){
+  .btn{white-space:normal;text-align:center}
+  .btn-lg{font-size:1.18rem;padding:.85rem 1.4rem}
+  .trial-phones{display:grid;gap:.6rem}
+  .trial-phones .btn{width:100%}
+}
+
+/* Inline links were 18-20px tall - under the 24px minimum for a touch target,
+   and the phone numbers are the main thing a visitor taps. */
+.link-arrow{display:inline-flex;align-items:center;min-height:26px}
+.detail p a,.footer-contact p a{display:inline-flex;align-items:center;min-height:26px}
+.detail a[href^="tel:"],.footer-contact a[href^="tel:"]{
+  min-height:34px;font-weight:700;font-size:1.05rem;
+}
+@media (max-width:600px){
+  .detail a[href^="tel:"],.footer-contact a[href^="tel:"]{min-height:44px;font-size:1.15rem}
+  .detail p a,.footer-contact p a{min-height:32px}
+}
