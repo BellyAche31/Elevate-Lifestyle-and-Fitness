@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://elevate-lifestyle-fitness-jcg1312003-3056s-projects.vercel.app/sitemap.xml
+Sitemap: https://elevate-fitness-ph-jcg1312003-3056s-projects.vercel.app/sitemap.xml
