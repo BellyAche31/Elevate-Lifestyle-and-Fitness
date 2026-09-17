@@ -4,7 +4,9 @@ Static marketing site for **Elevate Lifestyle and Fitness** — 143 Susano Rd, N
 Quezon City, 1117 Metro Manila.
 
 **Live:** https://bellyache31.github.io/Elevate-Lifestyle-and-Fitness/
-Served by GitHub Pages from the `gh-pages` branch.
+Served by GitHub Pages from the `claude/magical-shannon-drc5u2` branch
+(Settings → Pages → Deploy from a branch). Every push to that branch
+redeploys the site automatically.
 
 No build step, no dependencies. Open `index.html` in a browser, or serve the folder:
 
