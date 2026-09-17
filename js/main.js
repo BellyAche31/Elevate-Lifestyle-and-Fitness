@@ -58,15 +58,20 @@
     { day: "Sat", slots: ["3:00 PM", "4:00 PM"] }
   ];
 
-  /* Drop real photos into assets/gallery/ using these filenames and they
-     appear automatically; until then a branded placeholder tile is shown. */
+  /* Drop real photos into assets/gallery/ using these base names and they
+     appear automatically; until then a branded placeholder tile is shown.
+     The extension does not matter - each name is tried against the list in
+     GALLERY_EXTS below, so community.jpg, community.png and community.webp
+     all work without editing this file. */
+  var GALLERY_EXTS = ["jpg", "jpeg", "JPG", "JPEG", "png", "PNG", "webp", "WEBP", "avif"];
+
   var GALLERY = [
-    { file: "assets/gallery/community.jpg", caption: "FTMG '26 team games" },
-    { file: "assets/gallery/gym-floor.jpg", caption: "The gym floor" },
-    { file: "assets/gallery/classes.jpg", caption: "Evening group class" },
-    { file: "assets/gallery/pilates.jpg", caption: "Reformer studio" },
-    { file: "assets/gallery/court.jpg", caption: "Indoor court" },
-    { file: "assets/gallery/billiards.jpg", caption: "Billiards lounge" }
+    { name: "community", caption: "FTMG '26 team games" },
+    { name: "gym-floor", caption: "The gym floor" },
+    { name: "classes", caption: "Evening group class" },
+    { name: "pilates", caption: "Reformer studio" },
+    { name: "court", caption: "Indoor court" },
+    { name: "billiards", caption: "Billiards lounge" }
   ];
 
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
@@ -206,6 +211,7 @@
       img.loading = "lazy";
       img.decoding = "async";
       img.style.display = "none";
+
       img.addEventListener("load", function () {
         img.style.display = "";
         ph.remove();
@@ -214,8 +220,18 @@
         cap.textContent = item.caption;
         fig.appendChild(cap);
       });
-      img.addEventListener("error", function () { img.remove(); });
-      img.src = item.file;
+
+      /* Try each extension in turn; give up (keeping the placeholder) only
+         once every candidate has 404ed. */
+      var extIndex = 0;
+      function tryNextExt() {
+        if (extIndex >= GALLERY_EXTS.length) { img.remove(); return; }
+        img.src = "assets/gallery/" + item.name + "." + GALLERY_EXTS[extIndex];
+        extIndex += 1;
+      }
+      img.addEventListener("error", tryNextExt);
+      tryNextExt();
+
       fig.appendChild(img);
 
       galleryEl.appendChild(fig);
