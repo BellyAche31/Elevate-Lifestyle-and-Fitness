@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://elevate-lifestyle-jcg1312003-3056s-projects.vercel.app/sitemap.xml
+Sitemap: https://bellyache31.github.io/Elevate-Lifestyle-and-Fitness/sitemap.xml

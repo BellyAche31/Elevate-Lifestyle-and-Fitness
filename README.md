@@ -3,8 +3,8 @@
 Static marketing site for **Elevate Lifestyle and Fitness** — 143 Susano Rd, Novaliches,
 Quezon City, 1117 Metro Manila.
 
-**Live:** https://elevate-lifestyle-jcg1312003-3056s-projects.vercel.app/
-(Vercel project `elevate-lifestyle`)
+**Live:** https://bellyache31.github.io/Elevate-Lifestyle-and-Fitness/
+Served by GitHub Pages from the `gh-pages` branch.
 
 No build step, no dependencies. Open `index.html` in a browser, or serve the folder:
 
