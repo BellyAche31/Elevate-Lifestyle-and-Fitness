@@ -376,6 +376,96 @@
      Footer year
      ---------------------------------------------------------------------- */
   /* ----------------------------------------------------------------------
+     Team profile lightbox.
+     Each coach's poster carries their printed expertise and certifications,
+     so tapping a card opens that poster full size.
+     ---------------------------------------------------------------------- */
+  var PROFILES = [
+    { img: "assets/img/coach-natalia-full.jpg",  name: "Coach Natalia",  role: "Coach \u2014 sports science, women's fitness, athletic performance" },
+    { img: "assets/img/coach-leo-full.jpg",      name: "Coach Leo",      role: "Coach \u2014 strength & conditioning, boxing & Muay Thai" },
+    { img: "assets/img/coach-jonathan-full.jpg", name: "Coach Jonathan", role: "Coach \u2014 hypertrophy, contest prep, powerlifting, MMA" },
+    { img: "assets/img/coach-derick-full.jpg",   name: "Coach Derick",   role: "Coach \u2014 body recomposition, bodybuilding, mobility" },
+    { img: "assets/img/staff-felipe-full.jpg",   name: "Felipe",         role: "Operations Manager" },
+    { img: "assets/img/staff-ash-full.jpg",      name: "Ash",            role: "Membership Sales Representative" },
+    { img: "assets/img/staff-kirstein-full.jpg", name: "Kirstein",       role: "Membership Sales Representative" }
+  ];
+
+  /* 1x1 transparent placeholder, so the dialog never holds a src-less <img> */
+  var LB_BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
+  var lb = $("#lightbox");
+  var lbImg = $("#lbImage");
+  var lbCap = $("#lbCaption");
+  var lbIndex = 0;
+  var lbLastFocus = null;
+
+  function lbShow(i) {
+    lbIndex = (i + PROFILES.length) % PROFILES.length;
+    var pr = PROFILES[lbIndex];
+    lbImg.src = pr.img;
+    lbImg.alt = pr.name + " \u2014 " + pr.role;
+    lbCap.innerHTML = "<strong>" + pr.name + "</strong>" + pr.role;
+  }
+
+  function lbOpen(i) {
+    if (!lb) return;
+    lbLastFocus = document.activeElement;
+    lbShow(i);
+    lb.hidden = false;
+    document.body.classList.add("lb-open");
+    var close = $(".lb-close", lb);
+    if (close) close.focus();
+  }
+
+  function lbClose() {
+    if (!lb || lb.hidden) return;
+    lb.hidden = true;
+    document.body.classList.remove("lb-open");
+    lbImg.src = LB_BLANK;
+    if (lbLastFocus && lbLastFocus.focus) lbLastFocus.focus();
+  }
+
+  if (lb) {
+    $$(".coach-tap[data-profile]").forEach(function (btn) {
+      var i = parseInt(btn.dataset.profile, 10);
+      var pr = PROFILES[i];
+      /* the coaches' posters carry an expertise list; the staff cards are
+         just a photo, so the label should not promise a profile */
+      if (pr) btn.setAttribute("aria-label",
+        "Open " + pr.name + (pr.img.indexOf("coach-") > -1 ? "'s full profile" : "'s photo"));
+      btn.addEventListener("click", function () { lbOpen(i); });
+    });
+
+    $$("[data-lb-close]", lb).forEach(function (el) { el.addEventListener("click", lbClose); });
+    var prevBtn = $("[data-lb-prev]", lb), nextBtn = $("[data-lb-next]", lb);
+    if (prevBtn) prevBtn.addEventListener("click", function () { lbShow(lbIndex - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { lbShow(lbIndex + 1); });
+
+    document.addEventListener("keydown", function (e) {
+      if (lb.hidden) return;
+      if (e.key === "Escape") { lbClose(); return; }
+      if (e.key === "ArrowLeft") { lbShow(lbIndex - 1); return; }
+      if (e.key === "ArrowRight") { lbShow(lbIndex + 1); return; }
+      if (e.key === "Tab") {
+        /* keep focus inside the dialog while it is open */
+        var f = $$("button", lb).filter(function (b) { return b.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+
+    /* swipe between profiles on touch */
+    var tx = 0;
+    lb.addEventListener("touchstart", function (e) { tx = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener("touchend", function (e) {
+      var dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 60) lbShow(lbIndex + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  /* ----------------------------------------------------------------------
      Opening hours - open daily 6:00 AM to 12:00 AM (midnight).
      Manila is UTC+8 and never observes DST, so the club's local time is
      derived from UTC rather than from the visitor's own clock.
