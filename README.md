@@ -34,9 +34,23 @@ robots.txt, sitemap.xml
 | Pilates slots | `js/main.js` → `PILATES` |
 | Gallery photos & captions | `js/main.js` → `GALLERY` |
 | Membership prices | `index.html` → search for `data-editable` |
+| Opening hours | `js/main.js` → `OPEN_HOUR` / `CLOSE_HOUR`, plus the text in `index.html` |
+| Phone numbers | `index.html` → search for `tel:` |
 | Email address | `js/main.js` → `CONTACT_EMAIL`, plus the `mailto:` links in `index.html` |
-| Facebook / Instagram | `index.html` → footer `.socials` (currently `href="#"` placeholders) |
+| Facebook / Instagram | `index.html` → footer `.socials` and the Contact section |
+| Amenities list | `index.html` → `.amenity-list` |
+| Coaches & staff | `index.html` → `.team-grid` |
 | Brand colours | `css/styles.css` → `:root` |
+
+## Photos
+
+Web-sized, optimised copies live in **`assets/img/`** — these are the ones the
+site actually loads (about 4.6 MB for 23 images). The originals as uploaded are
+kept untouched under `assets/gallery/Elevate Lifestyle and Fitness Pics/`.
+
+To swap a photo, replace the file in `assets/img/` keeping the same filename.
+Resize to about 1400px on the long edge and save at JPEG quality 80 first —
+full-size phone photos will make the page slow.
 
 ### Membership prices
 

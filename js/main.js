@@ -58,20 +58,20 @@
     { day: "Sat", slots: ["3:00 PM", "4:00 PM"] }
   ];
 
-  /* Drop real photos into assets/gallery/ using these base names and they
-     appear automatically; until then a branded placeholder tile is shown.
-     The extension does not matter - each name is tried against the list in
-     GALLERY_EXTS below, so community.jpg, community.png and community.webp
-     all work without editing this file. */
-  var GALLERY_EXTS = ["jpg", "jpeg", "JPG", "JPEG", "png", "PNG", "webp", "WEBP", "avif"];
-
+  /* Curated from the club's own photo library in assets/img/. */
   var GALLERY = [
-    { name: "community", caption: "FTMG '26 team games" },
-    { name: "gym-floor", caption: "The gym floor" },
-    { name: "classes", caption: "Evening group class" },
-    { name: "pilates", caption: "Reformer studio" },
-    { name: "court", caption: "Indoor court" },
-    { name: "billiards", caption: "Billiards lounge" }
+    { file: "assets/img/gym-besties.jpg",    caption: "Gym besties" },
+    { file: "assets/img/dumbbells.jpg",      caption: "The dumbbell rack" },
+    { file: "assets/img/cardio.jpg",         caption: "Cardio zone" },
+    { file: "assets/img/pilates-studio.jpg", caption: "Reformer studio" },
+    { file: "assets/img/yoga-group.jpg",     caption: "Yoga class" },
+    { file: "assets/img/spinning-group.jpg", caption: "Spinning class" },
+    { file: "assets/img/zumba-group.jpg",    caption: "Zumba night" },
+    { file: "assets/img/taekwondo.jpg",      caption: "Taekwondo" },
+    { file: "assets/img/pilates-group.jpg",  caption: "Pilates group" },
+    { file: "assets/img/lockers.jpg",        caption: "Lockers & dressing room" },
+    { file: "assets/img/sauna.jpg",          caption: "Sauna" },
+    { file: "assets/img/exterior.jpg",       caption: "143 Susano Road" }
   ];
 
   var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
@@ -206,33 +206,21 @@
       ph.innerHTML = "<span>" + item.caption + "</span>";
       fig.appendChild(ph);
 
+      /* The photo paints straight away and simply covers the placeholder;
+         hiding it until a load event only produces a visible pop-in. */
       var img = document.createElement("img");
       img.alt = item.caption + " at Elevate Lifestyle and Fitness";
       img.loading = "lazy";
       img.decoding = "async";
-      img.style.display = "none";
-
-      img.addEventListener("load", function () {
-        img.style.display = "";
-        ph.remove();
-        var cap = document.createElement("figcaption");
-        cap.className = "gal-cap";
-        cap.textContent = item.caption;
-        fig.appendChild(cap);
-      });
-
-      /* Try each extension in turn; give up (keeping the placeholder) only
-         once every candidate has 404ed. */
-      var extIndex = 0;
-      function tryNextExt() {
-        if (extIndex >= GALLERY_EXTS.length) { img.remove(); return; }
-        img.src = "assets/gallery/" + item.name + "." + GALLERY_EXTS[extIndex];
-        extIndex += 1;
-      }
-      img.addEventListener("error", tryNextExt);
-      tryNextExt();
-
+      img.addEventListener("load", function () { ph.remove(); });
+      img.addEventListener("error", function () { img.remove(); });
+      img.src = item.file;
       fig.appendChild(img);
+
+      var cap = document.createElement("figcaption");
+      cap.className = "gal-cap";
+      cap.textContent = item.caption;
+      fig.appendChild(cap);
 
       galleryEl.appendChild(fig);
     });
@@ -387,6 +375,48 @@
   /* ----------------------------------------------------------------------
      Footer year
      ---------------------------------------------------------------------- */
+  /* ----------------------------------------------------------------------
+     Opening hours - open daily 6:00 AM to 12:00 AM (midnight).
+     Manila is UTC+8 and never observes DST, so the club's local time is
+     derived from UTC rather than from the visitor's own clock.
+     ---------------------------------------------------------------------- */
+  var OPEN_HOUR = 6;
+  var CLOSE_HOUR = 24;
+
+  function manilaNow() {
+    var now = new Date();
+    return new Date(now.getTime() + (now.getTimezoneOffset() + 480) * 60000);
+  }
+
+  function openState() {
+    var h = manilaNow().getHours();
+    var open = h >= OPEN_HOUR && h < CLOSE_HOUR;
+    if (open) return { open: true, text: "Open right now" };
+    var hoursUntil = OPEN_HOUR - h;
+    if (hoursUntil < 0) hoursUntil += 24;
+    return {
+      open: false,
+      text: hoursUntil <= 1 ? "Closed - opens within the hour"
+                            : "Closed now - opens at 6:00 AM"
+    };
+  }
+
+  function paintOpenState() {
+    var st = openState();
+
+    var badge = $("#heroOpen");
+    if (badge) badge.classList.toggle("is-shut", !st.open);
+
+    var line = $("#openState");
+    if (line) {
+      line.textContent = st.text;
+      line.classList.toggle("now-open", st.open);
+      line.classList.toggle("now-shut", !st.open);
+    }
+  }
+  paintOpenState();
+  window.setInterval(paintOpenState, 60000);
+
   var yearEl = $("#year");
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
 })();

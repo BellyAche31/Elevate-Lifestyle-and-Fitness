@@ -150,8 +150,9 @@ p{margin:0 0 1rem}
 .hero-bg{
   position:absolute;inset:0;z-index:-1;
   background:
-    radial-gradient(1100px 620px at 78% 8%,rgba(247,148,29,.34),transparent 62%),
-    radial-gradient(760px 520px at 8% 92%,rgba(247,148,29,.16),transparent 65%),
+    linear-gradient(95deg,rgba(18,18,18,.96) 0%,rgba(18,18,18,.82) 46%,rgba(18,18,18,.55) 100%),
+    radial-gradient(1100px 620px at 78% 8%,rgba(247,148,29,.3),transparent 62%),
+    url("../assets/img/floor.jpg") center right/cover no-repeat,
     linear-gradient(160deg,#1c1c1c 0%,#131313 55%,#1f1c17 100%);
 }
 .hero-bg::after{
@@ -330,13 +331,13 @@ p{margin:0 0 1rem}
   .gal:nth-child(1){grid-column:span 2;grid-row:span 2}
   .gal:nth-child(6){grid-column:span 2}
 }
-.gal img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.gal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;z-index:1}
 .gal:hover img{transform:scale(1.06)}
 .gal-ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1rem;
   background:linear-gradient(140deg,#2c2c2c,#1b1b1b 60%,#2a2216);color:#8d8d8d}
 .gal-ph span{font-family:var(--font-display);font-size:1.15rem;letter-spacing:.14em;text-transform:uppercase}
 .gal-cap{
-  position:absolute;inset:auto 0 0;padding:1.4rem 1rem .85rem;color:#fff;
+  z-index:2;position:absolute;inset:auto 0 0;padding:1.4rem 1rem .85rem;color:#fff;
   font-family:var(--font-display);font-size:1.15rem;letter-spacing:.1em;text-transform:uppercase;
   background:linear-gradient(transparent,rgba(0,0,0,.8));
 }
@@ -416,3 +417,107 @@ p{margin:0 0 1rem}
   .site-header,.float-cta,.marquee,.map-card,.trial-form{display:none}
   body{color:#000}
 }
+
+
+/* ==========================================================================
+   Sections added once the club's own photos and copy arrived
+   ========================================================================== */
+
+/* --- hero open-now badge --- */
+.hero-open{display:flex;align-items:center;gap:.6rem;margin:0 0 1.6rem;font-size:1rem;color:#e6e6e6}
+.hero-open .dot{width:10px;height:10px;border-radius:50%;background:#5bd07a;box-shadow:0 0 0 4px rgba(91,208,122,.22);flex:none}
+.hero-open.is-shut .dot{background:#d0655b;box-shadow:0 0 0 4px rgba(208,101,91,.22)}
+
+/* --- stats: allow text values like 6AM-12AM and FIBA --- */
+.stat strong .unit{font-size:.5em;letter-spacing:.04em}
+
+/* --- about --- */
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.3rem}
+.about-card{border:1px solid #e7e7e7;border-radius:var(--r);padding:1.7rem;background:#fff;box-shadow:var(--shadow-sm)}
+.about-card h3{color:var(--orange-dk);font-size:1.3rem}
+.about-card p{margin:0;color:#4d4d4d;font-size:.98rem}
+.about-mission{background:linear-gradient(150deg,rgba(247,148,29,.1),#fff 70%);border-color:rgba(247,148,29,.45)}
+
+/* --- facilities with photos --- */
+.facility-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.3rem}
+.fac{
+  display:flex;flex-direction:column;overflow:hidden;border-radius:var(--r);
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  transition:transform .2s ease,border-color .2s ease;
+}
+.fac:hover{transform:translateY(-5px);border-color:rgba(247,148,29,.6)}
+.fac img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.fac-body{padding:1.4rem}
+.fac-body h3{margin-bottom:.4rem}
+.fac-body p{margin:0;color:#c4c4c4;font-size:.96rem}
+
+/* --- amenities --- */
+.amenities{margin-top:2.8rem;padding-top:2.4rem;border-top:1px solid rgba(255,255,255,.14)}
+.amenities h3{margin-bottom:1.2rem}
+.amenity-list{
+  list-style:none;margin:0 0 1rem;padding:0;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:.6rem 1.4rem;
+}
+.amenity-list li{position:relative;padding-left:1.8rem;color:#dcdcdc;font-size:.97rem}
+.amenity-list li::before{
+  content:"";position:absolute;left:0;top:.52em;width:14px;height:14px;border-radius:50%;background:var(--orange);
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 6 9 17l-5-5' fill='none' stroke='%23000' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/110% no-repeat;
+}
+.amenities .micro{color:#9a9a9a}
+
+/* --- schedule on a light ground --- */
+.schedule-light .sched-day{border-color:#e4e4e4;background:linear-gradient(180deg,#fafafa,#fff)}
+.schedule-light .sched-day-head{background:#f3f3f3;border-bottom-color:#e4e4e4}
+.schedule-light .sched-day-head h3{color:var(--ink)}
+.schedule-light .sched-rows li{border-bottom-color:#ededed}
+.schedule-light .sched-name{color:#2f2f2f}
+.schedule-light .sched-empty{color:#8a8a8a}
+.schedule-light .sched-day.is-today{border-color:var(--orange)}
+
+/* --- pilates note strip --- */
+.pilates-note{
+  display:grid;gap:1.6rem;margin-top:2.2rem;padding:1.8rem;
+  background:var(--ink);color:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);
+}
+@media (min-width:860px){.pilates-note{grid-template-columns:1fr 1fr;gap:2.4rem;align-items:center}}
+.pilates-note h3{color:#fff;margin-bottom:.4rem}
+.pilates-note p{margin:0;color:#b8b8b8;font-size:.97rem}
+.pilates-days{display:grid;gap:.7rem;margin:0}
+
+/* --- membership perks + offers --- */
+.plan .perk{
+  margin:0 0 1.4rem;padding:.8rem .9rem;border-radius:var(--r-sm);
+  background:rgba(247,148,29,.12);border:1px solid rgba(247,148,29,.3);
+  font-size:.86rem;line-height:1.5;color:#e4e4e4;
+}
+.plan .perk strong{color:#ffcf92}
+
+.offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem;margin-top:2.4rem}
+.offer{padding:1.6rem;border:1px solid rgba(255,255,255,.14);border-radius:var(--r);background:rgba(255,255,255,.04)}
+.offer h4{color:var(--orange);margin-bottom:.9rem}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 .7rem;padding:0}
+.chips li{
+  font-size:.88rem;font-weight:600;padding:.34rem .8rem;border-radius:999px;
+  background:rgba(247,148,29,.16);color:#ffcf92;border:1px solid rgba(247,148,29,.3);
+}
+.chips-pay li{background:rgba(255,255,255,.07);color:#dcdcdc;border-color:rgba(255,255,255,.18)}
+.offer .micro{color:#9a9a9a}
+
+/* --- team --- */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.1rem}
+.member{margin:0;border-radius:var(--r);overflow:hidden;background:var(--ink-2);box-shadow:var(--shadow-sm)}
+.member img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.member figcaption{padding:.9rem 1rem;display:grid;gap:.1rem;background:var(--ink);color:#fff}
+.member strong{font-family:var(--font-display);font-size:1.2rem;letter-spacing:.05em;text-transform:uppercase}
+.member span{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange)}
+
+/* --- open/closed line in contact --- */
+.open-state{font-weight:600;font-size:.95rem}
+.open-state.now-open{color:#1d7a33}
+.open-state.now-shut{color:#b4483d}
+
+/* --- trial call buttons --- */
+.trial-phones{display:flex;flex-wrap:wrap;gap:.7rem;margin:1.6rem 0 0}
+
+/* --- gallery captions are always on now that photos are real --- */
+.gal figcaption.gal-cap{opacity:1}
