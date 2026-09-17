@@ -3,8 +3,8 @@
 Static marketing site for **Elevate Lifestyle and Fitness** — 143 Susano Rd, Novaliches,
 Quezon City, 1117 Metro Manila.
 
-**Live:** https://elevate-fitness-ph-jcg1312003-3056s-projects.vercel.app/
-(Vercel project `elevate-fitness-ph`)
+**Live:** https://elevate-lifestyle-jcg1312003-3056s-projects.vercel.app/
+(Vercel project `elevate-lifestyle`)
 
 No build step, no dependencies. Open `index.html` in a browser, or serve the folder:
 
@@ -79,7 +79,7 @@ The site is plain static files, so any host works:
 - **Vercel** — `vercel --prod` from this folder. To get automatic deploys on
   every push, install the Vercel GitHub app
   (<https://github.com/apps/vercel>) and link this repository to the
-  `elevate-fitness-ph` project; the current live copy was uploaded directly,
+  `elevate-lifestyle` project; the current live copy was uploaded directly,
   so pushes do not redeploy it yet.
 - **GitHub Pages** — Settings → Pages → deploy from this branch, root folder.
 - **Netlify / Cloudflare Pages** — drag and drop the folder.
